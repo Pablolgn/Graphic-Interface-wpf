@@ -1,0 +1,177 @@
+﻿<Window x:Class="TrabajoWPF.Secundaria"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TrabajoWPF"
+        mc:Ignorable="d"
+        Title="Secundaria" Height="450" Width="800"
+        Closing="DataWindow_Closing" >
+
+    <Grid Name="principal"  Margin="10" Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Name="SelFuncio" Background="LightGray" Margin="10,3,0,3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="0" Name="nombre" Grid.ColumnSpan="2" Margin="5" Orientation="Horizontal">
+                <Label Name="nom" Content="Nombre:" Background="LightGray" Width="auto" />
+                <TextBox Name="textBox1" Width="435" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Name="SelColor" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal" Margin="20" >
+                    <Button Height="50" Width="100" Content="Color" FontSize="25" Click="SelColor_Click" Margin="10"/>
+                    <Rectangle Name="probador" StrokeThickness="2" Stroke="Gray" Height="50" Width="50" Margin="25,10" RadiusX="10" RadiusY="10"/>
+                </StackPanel>
+                <Button Content="Añadir" Width="150" Height="50"  Click="NuevoObjeto" FontSize="20"/>
+                
+            </StackPanel>
+
+
+            <GroupBox Grid.Column="0" Grid.Row="1" Name="funcion"  Margin="5" VerticalAlignment="Center" Height="120" BorderThickness="0">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <RadioButton Name="b_1" Content="a*sen(b*x)" HorizontalAlignment="Left" Click="RadioButton_Click_1"/>
+                    <RadioButton Name="b_2" Content="a*cos(b*x)" HorizontalAlignment="Left" Click="RadioButton_Click_1"/>
+                    <RadioButton Name="b_3" Content="a*x^n" HorizontalAlignment="Left" Click="RadioButton_Click_1"/>
+                    <RadioButton Name="b_4" Content="a*x+b" HorizontalAlignment="Left" Click="RadioButton_Click_1"/>
+                    <RadioButton Name="b_5" Content="a*x^2+b*x+c" HorizontalAlignment="Left" Click="RadioButton_Click_1"/>
+                    <RadioButton Name="b_6" Content="a/(b*x)" HorizontalAlignment="Left" Click="RadioButton_Click_1"/>
+                </StackPanel>
+            </GroupBox>
+
+            <StackPanel Grid.Row="1" Grid.Column="1" Name="parametros" Orientation="Vertical" Margin="10">
+                <Label Name="Actual_ecu" Content="ecuacion actual" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                <StackPanel Name="ec_1" Orientation="Horizontal"  Visibility="Collapsed">
+                    <Label Content="a:" Width="20"/>
+                    <TextBox  Name="Var_a" Width="200"  TextAlignment="Center" Height="18" PreviewTextInput="Solo_numeros"/>
+                </StackPanel>
+                <StackPanel Name="ec_2" Orientation="Horizontal" Visibility="Collapsed">
+                    <Label Content="b:" Width="20"/>
+                    <TextBox Name="Var_b" Width="200"  TextAlignment="Center" Height="18" PreviewTextInput="Solo_numeros"/>
+                </StackPanel>
+                <StackPanel  Name="ec_3" Orientation="Horizontal" Visibility="Collapsed">
+                    <Label Content="c:" Width="20"/>
+                    <TextBox Name="Var_c" Width="200"  TextAlignment="Center" Height="18" PreviewTextInput="Solo_numeros"/>
+                </StackPanel>
+                <StackPanel Name="ec_4" Orientation="Horizontal" Visibility="Collapsed">
+                    <Label Content="n:" Width="20"/>
+                    <TextBox Name="Var_n" Width="200"  TextAlignment="Center" Height="18" PreviewTextInput="Solo_numeros"/>
+                </StackPanel>
+                
+            </StackPanel>
+        </Grid>
+        <Separator Grid.Row="1" Background="Silver" Width="720"/>
+        <Grid Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <ListView Name="lista" Grid.Column="0">
+                <ListView.View>
+                    <GridView >
+                        <GridViewColumn Header="nombre" Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="6,2,6,2">
+                                        <TextBox Text="{Binding Path=nom, Mode= TwoWay, UpdateSourceTrigger = PropertyChanged}" MinWidth="50"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Color" Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle Fill="{Binding colr}" HorizontalAlignment="Center" Width="70" Height="16"  />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Visibilidad" Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="6,2,6,2">
+                                        <ToggleButton x:Name="pbStations" Margin="15,0,0,0" Tag="{Binding}" BorderBrush="Transparent" Background="Transparent" Checked="visible" Unchecked="oculto">
+                                            <Image Margin="2" Stretch="Uniform" x:Name="img" Width="20" Height="20">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=pbStations,Path=IsChecked}" Value="True">
+                                                                <Setter Property="Source" Value="visible.png" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ElementName=pbStations,Path=IsChecked}" Value="False">
+                                                                <Setter Property="Source" Value="oculto.png" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </ToggleButton>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Opciones" Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="6,2,6,2" Orientation="Horizontal">
+                                        <Button Name="editar" Tag="{Binding}" Margin="2,0,0,0"  BorderBrush="Transparent" Background="Transparent"  Click="pecato">
+                                            <Image Source="editar.png" Width="20" Height="20"/>
+                                        </Button>
+                                        <Button Name="borrar" Tag="{Binding}" Margin="2,0,0,0"  BorderBrush="Transparent" Background="Transparent" Click="Click_borrar">
+                                            <Image Source="basura.png" Width="20" Height="20"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <StackPanel Background="LightGray" Grid.Column="1" Margin=" 20 0 0 0">
+                <StackPanel>
+                    <Label Content="Eje - X"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Min:"/>
+                        <TextBox Text="-20" Name="eje1"  Width="120" Margin="15 2 0 2" PreviewTextInput="Solo_numeros" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Max:"/>
+                        <TextBox Text="20" Name="eje2" Width="120" Margin="13 2 0 2" PreviewTextInput="Solo_numeros" />
+                    </StackPanel>
+                    <Label Content="Eje - Y"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Min:"/>
+                        <TextBox Text="-20" Name="eje3" Width="120" Margin="15 2 0 2" PreviewTextInput="Solo_numeros"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Max:"/>
+                        <TextBox Text="20" Name="eje4" Width="120" Margin="13 2 0 2" PreviewTextInput="Solo_numeros"/>
+                    </StackPanel>
+                </StackPanel>
+                <Button Content="Cambiar ejes" Width="100" Margin="4 8 0 0" Click="Button_Click"/>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Window>
